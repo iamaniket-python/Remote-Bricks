@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% block title %}Youv'e logged in {% endblock %}
+<style>
+    body, h1 {
+        margin:0;
+        padding: 0;
+    }
+    
+    body{
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    
+    h1 {
+        text-align: center;
+        color: #333;
+        background-color: #f0f0f0;
+        padding: 20px;
+    }
+    
+    .content {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    
+    form {
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2p 4px rgba(0,0,0,0.1);
+    }
+    
+    form p {
+        margin: 10px 0;
+    }
+    
+    label {
+        font-weight: bold;
+    }
+    
+    input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    
+    input[type="radio"] {
+        margin-right: 5px;
+    }
+    
+    button[type="submit"] {
+        background-color: green;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    
+    button[type="submit"]:hover {
+        background-color: rgb(103, 206, 1);
+        color:#333;
+    }
+    
+    .todo {
+        background-color: #f9f9f9;
+        padding: 20px;
+        margin: 10px 0;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .todo p{
+        margin: 0;
+    }
+    
+    .todo i {
+        color: #888;
+    }
+    
+    
+
+</style>
+{% block content %}
+<p>Hello You have Logged in as {{ email }}</p>
+<div class="content">
+    <form method="POST">
+        <p>
+            <b><label for="content">Todo Content</label></b>
+        </p>
+        <p>
+        <input type="text" name="content" placeholder="todo content...">
+        </p>
+        <p>
+            <b><label for="degree">Degree</label></b>
+        </p>
+        <p>
+            <input 
+            id="degree-0" 
+            name="degree" 
+            required 
+            type="radio" value="important">
+            <label for="degree-0">Important</label>
+        </p>
+        <p>
+            <input 
+            id="degree-1" 
+            name="degree" 
+            required 
+            type="radio" value="unimportant">
+            <label for="degree-1">Unimportant</label>
+        </p>
+        <button type="submit">Submit</button>
+    </form>
+    <hr>
+    {% for todo in todos %}
+    <div class="todo">
+    <!--Fetching a todo-->
+    <p> {{ todo['content'] }} <i>
+        ({{ todo['degree'] }})</i> 
+    </p>
+    <!-- Deleting a todo -->
+    <form method="POST" 
+          action="{{ url_for('delete', id=todo['_id']) }}">
+    <input 
+          type="submit"
+          value="delete todo"
+          onclick="return 
+          confirm('Are you sure you want to delete this entry?')"/>
+    </form>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
